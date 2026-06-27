@@ -1,0 +1,169 @@
+# AWS Bastion Host Project
+
+## Project Overview
+
+This project demonstrates how to securely access an EC2 instance located in a private subnet using a Bastion Host deployed in a public subnet within the same AWS VPC.
+
+## Architecture
+
+Internet → Bastion Host (Public Subnet) → Private EC2 Instance (Private Subnet)
+
+### Key Components
+
+* Amazon VPC
+* Public Subnet
+* Private Subnet
+* Internet Gateway
+* Route Tables
+* Security Groups
+* EC2 Instances
+* SSH Connectivity
+
+## Architecture Diagram
+
+Add your architecture screenshot here:
+
+![Architecture Diagram](architecture-diagram.png)
+
+---
+
+## Objectives
+
+* Create a custom VPC.
+* Deploy a Bastion Host in a public subnet.
+* Deploy a Private EC2 instance without a public IP.
+* Configure Security Groups and Route Tables.
+* Securely access the private instance through the Bastion Host.
+
+---
+
+## AWS Resources Used
+
+| Resource         | Purpose                |
+| ---------------- | ---------------------- |
+| VPC              | Network Isolation      |
+| Internet Gateway | Internet Access        |
+| Public Subnet    | Bastion Host Placement |
+| Private Subnet   | Private EC2 Placement  |
+| Security Groups  | Access Control         |
+| EC2 Instances    | Compute Resources      |
+
+---
+
+## Implementation Steps
+
+### Step 1: Create VPC
+
+CIDR Block:
+
+10.0.0.0/16
+
+### Step 2: Create Public Subnet
+
+CIDR:
+
+10.0.1.0/24
+
+### Step 3: Create Private Subnet
+
+CIDR:
+
+10.0.2.0/24
+
+### Step 4: Attach Internet Gateway
+
+Attached IGW to VPC.
+
+### Step 5: Configure Route Tables
+
+Public Route Table:
+
+* 10.0.0.0/16 → Local
+* 0.0.0.0/0 → Internet Gateway
+
+Private Route Table:
+
+* 10.0.0.0/16 → Local
+
+### Step 6: Configure Security Groups
+
+Bastion Host Security Group:
+
+* SSH (22) from My IP
+
+Private Instance Security Group:
+
+* SSH (22) from Bastion Security Group
+
+### Step 7: Launch Instances
+
+Bastion Host:
+
+* Public Subnet
+* Public IP Enabled
+
+Private Instance:
+
+* Private Subnet
+* Public IP Disabled
+
+### Step 8: SSH Access
+
+Connect to Bastion:
+
+ssh -i Bastion.pem ec2-user@<bastion-public-ip>
+
+Connect to Private Instance:
+
+ssh -i Bastion.pem ec2-user@<private-ip>
+
+---
+
+## Validation
+
+Verified:
+
+* Bastion Host reachable from the Internet.
+* Private EC2 has no public IP.
+* SSH access successful through Bastion Host.
+* Security Groups configured correctly.
+
+---
+
+## Challenges Faced
+
+* Initial SSH connectivity issues.
+* Security Group troubleshooting.
+* Route Table validation.
+* Bastion-to-private instance communication testing.
+
+---
+
+## Skills Demonstrated
+
+* AWS VPC
+* EC2
+* Security Groups
+* Route Tables
+* Internet Gateway
+* Linux Administration
+* SSH
+* Cloud Security
+* Network Troubleshooting
+
+---
+
+## Future Improvements
+
+* Implement AWS Systems Manager Session Manager.
+* Add NAT Gateway for private subnet internet access.
+* Configure CloudWatch monitoring.
+* Enable CloudTrail auditing.
+
+---
+
+## Author
+
+Towhid Ahmed
+
+Aspiring Cloud & DevOps Engineer
